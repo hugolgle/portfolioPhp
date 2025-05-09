@@ -40,7 +40,9 @@ class PortfolioController extends Controller
     $projects = Project::all();
     $about = About::first();
 
-    return view('welcome', compact('skills', 'projects', 'about'));
+    $isAuthenticated = auth()->check();
+
+    return view('welcome', compact('skills', 'projects', 'about', 'isAuthenticated'));
   }
 }
 

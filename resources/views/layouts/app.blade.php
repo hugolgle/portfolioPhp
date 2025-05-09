@@ -38,6 +38,12 @@
         <button onclick="scrollToSection('skills')">Compétences</button>
         <button onclick="scrollToSection('projects')">Projets</button>
         <button onclick="scrollToSection('contact')">Contact</button>
+        @if ($isAuthenticated)
+      <a href="{{ route('admin') }}">Accéder à l'admin</a>
+    @else
+
+    @endif
+
       </nav>
     </div>
   </header>

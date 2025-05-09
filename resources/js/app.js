@@ -1,3 +1,7 @@
-console.log('Le fichier app.js est bien chargé.');
+// import './bootstrap';
 
-import 'alpinejs';
+import Alpine from 'alpinejs';
+
+window.Alpine = Alpine;
+
+Alpine.start();
