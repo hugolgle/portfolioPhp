@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\About;
 use App\Models\Project;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
@@ -38,11 +39,12 @@ class PortfolioController extends Controller
     ];
 
     $projects = Project::all();
+    $services = Service::all();
     $about = About::first();
 
     $isAuthenticated = auth()->check();
 
-    return view('welcome', compact('skills', 'projects', 'about', 'isAuthenticated'));
+    return view('welcome', compact('skills', 'projects', 'about', 'isAuthenticated', 'services'));
   }
 }
 

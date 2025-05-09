@@ -4,7 +4,6 @@
 
 :root {
     --colorBackground: rgba(35, 205, 16, 0.124);
-    user-select: none;
 }
 
 /* body::before {
