@@ -1,95 +1,154 @@
-@extends('layouts.admin')
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('À propos') }}
+            </h2>
+            <button id="editBtn" onclick="toggleEdit()"
+                class="inline-block bg-gray-500 hover:bg-gray-500/80 transition text-white px-4 py-2 rounded">
+                Modifier
+            </button>
+        </div>
+    </x-slot>
 
-@section('contentAdmin')
-  <div class="container mx-auto">
-    <h1 class="text-3xl font-bold mb-6">À propos</h1>
-    <form method="POST" action="{{ route('admin.about.update') }}" enctype="multipart/form-data" id="aboutForm">
-    @csrf
-    @method('PUT')
+    @section('contentAdmin')
+        <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+            <form method="POST" action="{{ route('admin.about.update') }}" enctype="multipart/form-data" id="aboutForm">
+                @csrf @method('PUT')
 
-    @foreach ($about as $item)
-    <div class="mb-4">
-      <label>CV (PDF)</label>
-      <input type="file" name="cv" accept="application/pdf" disabled>
-    </div>
+                <div class="grid grid-cols-1 gap-6">
+                    @foreach ($about as $item)
+                        {{-- CV --}}
+                        <div class="flex flex-col">
+                            <label class="font-medium mb-2">CV (PDF)</label>
+                            <input type="file" name="cv" accept="application/pdf" class="border rounded px-3 py-2"
+                                onchange="previewCV(event)" disabled>
+                            <canvas id="cvCanvas" class="mt-2 w-72 h-auto border cursor-pointer"
+                                onclick="window.open('{{ asset('storage/' . $item->cv) }}', '_blank')"></canvas>
 
-    <div class="mb-4">
-      <label class="capitalize">Bio</label>
-      <textarea name="bio" class="w-full border px-4 py-2" disabled>{{ old('bio', $item->bio) }}</textarea>
-    </div>
+                        </div>
 
-    <div class="mb-4">
-      <label>Photo de profil (image)</label>
-      <input type="file" name="photo" accept="image/*" disabled>
-    </div>
+                        {{-- Bio --}}
+                        <div class="flex flex-col">
+                            <label class="font-medium mb-2">Bio</label>
+                            <textarea name="bio" class="border rounded px-3 py-2 h-32" disabled>{{ old('bio', $item->bio) }}</textarea>
+                        </div>
 
-    <div class="mb-4">
-      <label class="capitalize">Numero</label>
-      <input type="number" name="numero" class="w-full border px-4 py-2" value="{{ old('numero', $item->numero) }}"
-      disabled>
-    </div>
+                        {{-- Photo --}}
+                        <div class="flex flex-col">
+                            <label class="font-medium mb-2">Photo de profil</label>
+                            <input type="file" name="photo" accept="image/*" class="border rounded px-3 py-2"
+                                onchange="previewPhoto(event)" disabled>
+                            <img id="photoPreview" src="{{ asset('storage/' . $item->photo) }}"
+                                class="mt-2 h-32 w-32 object-cover rounded" style="display: block;">
+                        </div>
 
-    <div class="mb-4">
-      <label class="capitalize">E-mail</label>
-      <input type="email" name="email" class="w-full border px-4 py-2" value="{{ old('email', $item->email) }}"
-      disabled>
-    </div>
+                        {{-- Numéro --}}
+                        <div class="flex flex-col">
+                            <label class="font-medium mb-2">Numéro</label>
+                            <input type="number" name="numero" value="{{ old('numero', $item->numero) }}"
+                                class="border rounded px-3 py-2" disabled>
+                        </div>
 
-    <div class="mb-4">
-      <label class="capitalize">Localisation</label>
-      <input type="text" name="localisation" class="w-full border px-4 py-2"
-      value="{{ old('localisation', $item->localisation) }}" disabled>
-    </div>
-    @endforeach
+                        {{-- E-mail --}}
+                        <div class="flex flex-col">
+                            <label class="font-medium mb-2">E‑mail</label>
+                            <input type="email" name="email" value="{{ old('email', $item->email) }}"
+                                class="border rounded px-3 py-2" disabled>
+                        </div>
 
-    <div class="flex gap-4 mt-4">
-      <button type="button" id="editBtn" onclick="toggleEdit()" class="bg-yellow-500 text-white px-4 py-2 rounded">
-      Modifier
-      </button>
-      <button type="submit" id="saveBtn" class="bg-green-500 text-white px-4 py-2 rounded hidden">
-      OK
-      </button>
-    </div>
-    </form>
+                        {{-- Localisation --}}
+                        <div class="flex flex-col">
+                            <label class="font-medium mb-2">Localisation</label>
+                            <input type="text" name="localisation" value="{{ old('localisation', $item->localisation) }}"
+                                class="border rounded px-3 py-2" disabled>
+                        </div>
+                    @endforeach
+                </div>
 
-    <script>
-    let formInitialValues = {};
-    let isEditing = false;
+                <div class="mt-6 flex justify-end space-x-4">
+                    <button type="submit" id="saveBtn"
+                        class="bg-black text-white px-4 py-2 rounded hover:bg-black/80 transition hidden">
+                        OK
+                    </button>
+                </div>
+            </form>
+        </div>
 
-    window.onload = () => {
-      // Enregistrer les valeurs initiales des champs input et textarea
-      document.querySelectorAll('#aboutForm input, #aboutForm textarea').forEach(input => {
-      formInitialValues[input.name] = input.value;
-      });
-    };
+        <script>
+            let formInitial = {};
+            let editing = false;
 
-    function toggleEdit() {
-      const inputs = document.querySelectorAll('#aboutForm input, #aboutForm textarea');
-      const saveBtn = document.getElementById('saveBtn');
-      const editBtn = document.getElementById('editBtn');
+            window.addEventListener('load', () => {
+                document.querySelectorAll('#aboutForm input, #aboutForm textarea')
+                    .forEach(i => formInitial[i.name] = i.value);
+            });
 
-      isEditing = !isEditing;
-      inputs.forEach(input => input.disabled = !isEditing);
-      editBtn.textContent = isEditing ? 'Annuler' : 'Modifier';
+            function toggleEdit() {
+                editing = !editing;
+                document.querySelectorAll('#aboutForm input, #aboutForm textarea')
+                    .forEach(i => i.disabled = !editing);
+                document.getElementById('saveBtn')
+                    .classList.toggle('hidden', !editing);
+                document.getElementById('editBtn')
+                    .textContent = editing ? 'Annuler' : 'Modifier';
+                if (!editing) {
+                    Object.entries(formInitial).forEach(([name, val]) => {
+                        document.querySelector(`[name="${name}"]`).value = val;
+                    });
 
-      if (!isEditing) {
-      // Réinitialiser les valeurs aux valeurs initiales
-      inputs.forEach(input => input.value = formInitialValues[input.name]);
-      saveBtn.classList.add('hidden');
-      } else {
-      saveBtn.classList.remove('hidden');
-      }
-    }
+                    document.getElementById('photoPreview').src = "{{ asset('storage/' . $item->photo) }}";
 
-    // Vérifier les modifications et afficher le bouton "OK" si des changements ont eu lieu
-    document.querySelectorAll('#aboutForm input, #aboutForm textarea').forEach(input => {
-      input.addEventListener('input', () => {
-      const modified = Array.from(document.querySelectorAll('#aboutForm input, #aboutForm textarea')).some(input => {
-        return input.value !== formInitialValues[input.name];
-      });
-      document.getElementById('saveBtn').classList.toggle('hidden', !modified);
-      });
-    });
-    </script>
+                    renderPDFThumbnail("{{ asset('storage/' . $item->cv) }}");
+                }
 
-  @endsection
+            }
+
+            document.querySelectorAll('#aboutForm input, #aboutForm textarea')
+                .forEach(i => i.addEventListener('input', () => {
+                    const changed = Array.from(
+                        document.querySelectorAll('#aboutForm input, #aboutForm textarea')
+                    ).some(inp => inp.value !== formInitial[inp.name]);
+                    document.getElementById('saveBtn')
+                        .classList.toggle('hidden', !changed);
+                }));
+
+            function previewPhoto(event) {
+                const [file] = event.target.files;
+                if (file) {
+                    document.getElementById('photoPreview').src = URL.createObjectURL(file);
+                }
+            }
+
+            function renderPDFThumbnail(fileUrl) {
+                const canvas = document.getElementById('cvCanvas');
+                const ctx = canvas.getContext('2d');
+
+                pdfjsLib.getDocument(fileUrl).promise.then(pdf => {
+                    pdf.getPage(1).then(page => {
+                        const viewport = page.getViewport({
+                            scale: 1
+                        });
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        page.render({
+                            canvasContext: ctx,
+                            viewport: viewport
+                        });
+                    });
+                });
+            }
+
+            renderPDFThumbnail("{{ asset('storage/' . $item->cv) }}");
+
+            function previewCV(event) {
+                const [file] = event.target.files;
+                if (file && file.type === "application/pdf") {
+                    const fileUrl = URL.createObjectURL(file);
+                    renderPDFThumbnail(fileUrl);
+                }
+            }
+        </script>
+    @endsection
+</x-app-layout>

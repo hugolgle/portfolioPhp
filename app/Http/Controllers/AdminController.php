@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\About;
 use App\Models\Project;
+use App\Models\Service;
 
 class AdminController extends Controller
 {
@@ -16,11 +17,6 @@ class AdminController extends Controller
   {
     $about = About::all();
     return view('admin.about', compact('about'));
-  }
-
-  public function skills()
-  {
-    return view('admin.skills');
   }
 
   public function project()
@@ -36,8 +32,14 @@ class AdminController extends Controller
     return view('admin.contact');
   }
 
-  public function settings()
+  public function services()
   {
-    return view('admin.settings');
+    $services = Service::all();
+    return view('admin.services', compact('services'));
+  }
+
+  public function preferences()
+  {
+    return view('admin.preferences');
   }
 }

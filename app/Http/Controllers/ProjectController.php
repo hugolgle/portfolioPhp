@@ -16,12 +16,10 @@ class ProjectController extends Controller
   {
     $validated = $request->validate([
       'title' => 'required|string|max:255',
-      'objectif' => 'required|string',
-      'formation' => 'nullable|string|max:255',
       'description' => 'nullable|string',
-      'skills' => 'nullable|array',
-      'ressource' => 'nullable|array',
-      'tags' => 'nullable|array',
+      'ressource' => 'nullable|url',
+      'demo' => 'nullable|url',
+      'tags' => 'nullable|string',
       'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
     ]);
 
@@ -32,12 +30,10 @@ class ProjectController extends Controller
 
     Project::create([
       'title' => $validated['title'],
-      'objectif' => $validated['objectif'],
-      'formation' => $validated['formation'] ?? null,
       'description' => $validated['description'] ?? null,
-      'skills' => $validated['skills'] ?? [],
-      'ressource' => $validated['ressource'] ?? [],
-      'tags' => $validated['tags'] ?? [],
+      'ressource' => $validated['ressource'] ?? null,
+      'demo' => $validated['demo'] ?? null,
+      'tags' => $validated['tags'] ?? null,
       'image' => $imagePath,
     ]);
 
@@ -51,12 +47,20 @@ class ProjectController extends Controller
 
   public function update(Request $request, Project $project)
   {
-    $request->validate([
+    $validated = $request->validate([
       'title' => 'required|string|max:255',
-      'objectif' => 'required|string',
+      'description' => 'nullable|string',
+      'ressource' => 'nullable|url',
+      'demo' => 'nullable|url',
+      'tags' => 'nullable|string',
+      'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
     ]);
 
-    $project->update($request->all());
+    if ($request->hasFile('image')) {
+      $validated['image'] = $request->file('image')->store('projects', 'public');
+    }
+
+    $project->update($validated);
 
     return redirect()->route('admin.project')->with('success', 'Projet mis à jour avec succès.');
   }
