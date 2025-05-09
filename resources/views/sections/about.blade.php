@@ -4,19 +4,14 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
       <div class="flex justify-center">
         <div class="relative size-44 md:size-64 rounded-full overflow-hidden border-4 border-primary/20">
-          <img src="{{ asset('images/pp.jpeg') }}" alt="Portrait" class="object-cover w-full h-full" />
+          <!-- Afficher la photo de profil dynamiquement -->
+          <img src="{{ asset('storage/' . $about->photo) }}" alt="Portrait" class="object-cover w-full h-full" />
         </div>
       </div>
       <div>
         <h3 class="text-2xl font-semibold mb-4">Qui suis-je?</h3>
         <p class="text-muted-foreground mb-4">
-          Passionné par le développement web et le design, je crée des solutions numériques qui allient esthétique
-          et fonctionnalité. Avec plus de 5 ans d'expérience, j'ai travaillé sur divers projets allant des sites
-          vitrines aux applications web complexes.
-        </p>
-        <p class="text-muted-foreground mb-6">
-          Mon approche combine créativité et rigueur technique pour livrer des produits qui répondent parfaitement
-          aux besoins des utilisateurs et aux objectifs des clients.
+          {!! $about->bio !!}
         </p>
         <button
           class="text-sm flex items-center gap-x-2 px-4 py-2 bg-white border text-black rounded hover:bg-gray-50 transition variant="
@@ -30,7 +25,7 @@
             <path d="M16 13H8" />
             <path d="M16 17H8" />
           </svg>
-          Télécharger mon CV
+          <a href="{{ asset('storage/' . $about->cv) }}" target="_blank" class="text-sm">Télécharger mon CV</a>
         </button>
       </div>
     </div>

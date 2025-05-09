@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
@@ -35,34 +37,10 @@ class PortfolioController extends Controller
       ],
     ];
 
-    $projects = [
-      [
-        'title' => 'Site E-commerce',
-        'description' => 'Plateforme de vente en ligne avec système de paiement intégré et gestion des stocks.',
-        // 'image' => '/placeholder.svg?height=400&width=600',
-        'tags' => ['React', 'Node.js', 'MongoDB', 'Stripe'],
-        'demoLink' => '#',
-        'codeLink' => '#',
-      ],
-      [
-        'title' => 'Application de Gestion',
-        'description' => 'Dashboard administratif pour la gestion des ressources et le suivi des performances.',
-        // 'image' => '/placeholder.svg?height=400&width=600',
-        'tags' => ['Vue.js', 'Express', 'MySQL', 'Chart.js'],
-        'demoLink' => '#',
-        'codeLink' => '#',
-      ],
-      [
-        'title' => 'Portfolio Photographe',
-        'description' => 'Galerie interactive pour un photographe professionnel avec système de réservation.',
-        // 'image' => '/placeholder.svg?height=400&width=600',
-        'tags' => ['Next.js', 'Tailwind CSS', 'Sanity.io'],
-        'demoLink' => '#',
-        'codeLink' => '#',
-      ],
-    ];
+    $projects = Project::all();
+    $about = About::first();
 
-    return view('welcome', compact('skills', 'projects'));
+    return view('welcome', compact('skills', 'projects', 'about'));
   }
 }
 

@@ -70,8 +70,7 @@
     })
   </script>
 
-
-  <main class="p-6">
+  <main class="px-6">
     @yield('content')
   </main>
 

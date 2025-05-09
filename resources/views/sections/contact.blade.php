@@ -20,7 +20,7 @@
             </div>
             <div>
               <h4 class="font-medium">Email</h4>
-              <p class="text-muted-foreground">hugoweb56@gmail.com</p>
+              <p class="text-muted-foreground">{{$about->email}}</p>
             </div>
           </div>
           <div class="flex items-center gap-4">
@@ -34,7 +34,7 @@
             </div>
             <div>
               <h4 class="font-medium">Téléphone</h4>
-              <p class="text-muted-foreground">+33 7 83 05 97 44</p>
+              <p class="text-muted-foreground">{{$about->numero}}</p>
             </div>
           </div>
           <div class="flex items-center gap-4">
@@ -49,7 +49,7 @@
             </div>
             <div>
               <h4 class="font-medium">Localisation</h4>
-              <p class="text-muted-foreground">Lorient, France</p>
+              <p class="text-muted-foreground">{{$about->localisation}}</p>
             </div>
           </div>
         </div>
