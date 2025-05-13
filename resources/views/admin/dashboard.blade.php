@@ -12,14 +12,13 @@
                     <h3 class="text-lg font-semibold">Vues</h3>
                     <p class="mt-2 text-3xl font-bold text-blue-600">1 234</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-lg font-semibold">Projets</h3>
-                    <p class="mt-2 text-3xl font-bold text-green-600">12</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-lg font-semibold">Messages</h3>
-                    <p class="mt-2 text-3xl font-bold text-red-600">5</p>
-                </div>
+                @if (isset($nbDevis) && $nbDevis > 0)
+                    <a href="{{ route('admin.services.devis') }}" class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold">Devis</h3>
+                        <p class="mt-2 text-3xl font-bold text-green-600">{{ $nbDevis }}</p>
+
+                    </a>
+                @endif
             </div>
 
             <div class="mt-10 bg-white p-6 rounded-lg shadow">

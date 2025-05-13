@@ -45,6 +45,15 @@ class ServiceController extends Controller
         return redirect()->route('admin.services');
     }
 
+
+    public function updateVisibility(Service $service)
+    {
+        $service->isVisible = !$service->isVisible;
+        $service->save();
+
+        return redirect()->back()->with('success', 'Visibilité modifiée.');
+    }
+
     public function edit(Service $service)
     {
         $service->load('options');

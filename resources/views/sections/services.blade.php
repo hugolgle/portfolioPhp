@@ -19,6 +19,7 @@
                 </div>
             @endforeach
         </div>
+
         <div class="mt-10 space-y-6">
             @foreach ($services as $key => $service)
                 <div id="details-{{ $key }}"
@@ -56,7 +57,6 @@
                                 <p>Aucune option disponible.</p>
                             @endif
                         </ul>
-
                     </div>
                 </div>
             @endforeach
@@ -67,11 +67,66 @@
             <p id="price" class="text-2xl font-bold text-primary mt-1">0€</p>
         </div>
 
-        <button
-            class="sendDemande mx-auto px-4 py-2 text-sm mt-5 font-medium bg-black text-white rounded hover:bg-black/80 transition"
-            style="display:none;">
-            Envoyer la demande
-        </button>
+        <x-primary-button class="sendDemande mx-auto mt-4" style="display:none;" itemscope x-data=""
+            x-on:click.prevent="$dispatch('open-modal', 'demande')">{{ __('Faire un devis') }}</x-primary-button>
+
+        <x-modal name="demande" focusable>
+            <form method="POST" action="{{ route('admin.devis.store') }}" class="p-6">
+                @csrf
+                <h2 class="text-lg font-medium text-gray-900">
+                    {{ __('Envoyer un devis?') }}
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-600">
+                    {{ __('Une fois votre demande envoyée, vous recevrez un e-mail de confirmation.') }}
+                </p>
+
+                <div class="mt-4">
+                    <label for="client_name"
+                        class="block text-sm font-medium text-gray-700">{{ __('Nom du client') }}</label>
+                    <input type="text" id="client_name" name="client_name" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
+                </div>
+
+                <div class="mt-4">
+                    <label for="client_phone"
+                        class="block text-sm font-medium text-gray-700">{{ __('Numéro de téléphone') }}</label>
+                    <input type="text" id="client_phone" name="client_phone" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
+                </div>
+
+                <div class="mt-4">
+                    <label for="client_email"
+                        class="block text-sm font-medium text-gray-700">{{ __('Email du client') }}</label>
+                    <input type="email" id="client_email" name="client_email" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
+                </div>
+
+                <div class="mt-6">
+                    <h4 class="text-lg font-semibold">Services sélectionnés</h4>
+                    <ul id="selected-services" class="mt-2">
+                        <!-- Les services sélectionnés seront affichés ici -->
+                    </ul>
+                </div>
+
+                <div class="mt-4">
+                    <h4 class="text-lg font-semibold">Total :</h4>
+                    <p id="modal-price" class="text-xl font-bold text-primary">0€</p>
+                </div>
+
+                <input type="hidden" id="selected_services_data" name="selected_services_data" value="">
+
+                <div class="mt-6 flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        {{ __('Annuler') }}
+                    </x-secondary-button>
+
+                    <x-primary-button class="ms-3">
+                        {{ __('Envoyer la demande') }}
+                    </x-primary-button>
+                </div>
+            </form>
+        </x-modal>
     </div>
 
     <script>
@@ -81,7 +136,8 @@
             const optionCheckboxes = document.querySelectorAll('.option-checkbox');
             const totalPriceElement = document.getElementById('price');
             const totalEstimate = document.querySelector('.totalEstimate');
-            const submitButton = document.querySelector('button.sendDemande');
+            const submitButton = document.querySelector('.sendDemande');
+            const selectedServicesList = document.getElementById('selected-services');
 
             optionCheckboxes.forEach(opt => opt.disabled = true);
 
@@ -101,19 +157,65 @@
             function updateTotalPrice() {
                 let total = 0;
                 let serviceSelected = false;
+                selectedServicesList.innerHTML = '';
 
                 serviceCheckboxes.forEach(cb => {
-                    if (cb.checked) {
-                        serviceSelected = true;
-                        total += parseFloat(cb.dataset.price || 0);
-                    }
+                    if (!cb.checked) return;
+                    serviceSelected = true;
+                    const serviceId = cb.dataset.serviceId;
+                    const detailsDiv = document.getElementById(`details-${serviceId}`);
+                    const titleEl = detailsDiv.querySelector('h4');
+                    const serviceName = titleEl ? titleEl.innerText : 'Service';
+
+                    total += parseFloat(cb.dataset.price) || 0;
+
+                    const liService = document.createElement('li');
+                    liService.textContent = `${serviceName} — ${cb.dataset.price}€`;
+                    selectedServicesList.appendChild(liService);
+
+                    const opts = detailsDiv.querySelectorAll('.option-checkbox');
+                    opts.forEach(opt => {
+                        if (!opt.checked) return;
+                        const label = detailsDiv.querySelector(`label[for="${opt.id}"] span`)
+                            .innerText;
+                        const priceOpt = parseFloat(opt.dataset.optionPrice) || 0;
+                        total += priceOpt;
+
+                        const liOpt = document.createElement('li');
+                        liOpt.textContent = `• ${label} (+${priceOpt}€)`;
+                        selectedServicesList.appendChild(liOpt);
+                    });
                 });
 
-                optionCheckboxes.forEach(cb => {
-                    if (cb.checked) {
-                        total += parseFloat(cb.dataset.optionPrice || 0);
-                    }
+                const selected = [];
+                serviceCheckboxes.forEach(cb => {
+                    if (!cb.checked) return;
+                    const serviceId = cb.dataset.serviceId;
+                    const details = document.getElementById(`details-${serviceId}`);
+                    const title = details.querySelector('h4').innerText;
+                    const price = parseFloat(cb.dataset.price);
+                    const opts = [];
+                    details.querySelectorAll('.option-checkbox').forEach(opt => {
+                        if (!opt.checked) return;
+                        opts.push({
+                            id: opt.id.replace('option-', ''),
+                            title: details.querySelector(`label[for="${opt.id}"] span`)
+                                .innerText,
+                            price: parseFloat(opt.dataset.optionPrice)
+                        });
+                    });
+                    selected.push({
+                        id: serviceId,
+                        title,
+                        price,
+                        options: opts
+                    });
                 });
+
+                document.getElementById('selected_services_data').value = JSON.stringify(selected);
+
+                const modalPriceEl = document.getElementById('modal-price');
+                if (modalPriceEl) modalPriceEl.innerText = total.toFixed(2) + '€';
 
                 if (serviceSelected) {
                     totalEstimate.style.display = 'block';
@@ -125,29 +227,20 @@
                 }
             }
 
-            serviceCheckboxes.forEach(cb => {
-                cb.addEventListener('change', function() {
-                    const serviceId = cb.dataset.serviceId;
-                    const detailsDiv = document.getElementById(
-                        `details-${serviceId}`);
-                    const relatedOptions = detailsDiv.querySelectorAll('.option-checkbox');
 
 
-                    relatedOptions.forEach(opt => {
-                        opt.disabled = !cb
-                            .checked;
-                        if (!cb.checked) {
-                            opt.checked = false;
-                        }
+            serviceCheckboxes.forEach(cb => cb.addEventListener('change', function() {
+                const details = document.getElementById(`details-${cb.dataset.serviceId}`);
+                details.querySelectorAll('.option-checkbox')
+                    .forEach(opt => {
+                        opt.disabled = !cb.checked;
+                        if (!cb.checked) opt.checked = false;
                     });
+                updateTotalPrice();
+            }));
+            optionCheckboxes.forEach(cb => cb.addEventListener('change', updateTotalPrice));
 
-                    updateTotalPrice();
-                });
-            });
-
-            optionCheckboxes.forEach(cb => {
-                cb.addEventListener('change', updateTotalPrice);
-            });
+            updateTotalPrice();
         });
     </script>
 </section>

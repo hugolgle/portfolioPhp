@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Models\Devis;
 use App\Models\Project;
 use App\Models\Service;
 
@@ -10,7 +11,8 @@ class AdminController extends Controller
 {
   public function admin()
   {
-    return view('admin.dashboard');
+    $nbDevis = Devis::count();
+    return view('admin.dashboard', compact('nbDevis'));
   }
 
   public function about()
@@ -34,8 +36,15 @@ class AdminController extends Controller
 
   public function services()
   {
+    $nbDevis = Devis::count();
     $services = Service::all();
-    return view('admin.services', compact('services'));
+    return view('admin.services', compact('services', 'nbDevis'));
+  }
+
+  public function devis()
+  {
+    $devis = Devis::all();
+    return view('admin.services.devis', compact('devis'));
   }
 
   public function preferences()

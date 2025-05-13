@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DevisController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PreferenceController;
 use App\Http\Controllers\AdminController;
@@ -9,9 +10,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProfileController;
 
 Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('admin');
+    Route::get('/', [AdminController::class, 'admin'])->name('admin');
 
     Route::prefix('about')->group(function () {
         Route::get('/', [AdminController::class, 'about'])->name('admin.about');
@@ -33,7 +32,13 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [ServiceController::class, 'store'])->name('admin.services.store');
         Route::get('/{service}/edit', [ServiceController::class, 'edit'])->name('admin.services.edit');
         Route::put('/{service}', [ServiceController::class, 'update'])->name('admin.services.update');
+        Route::put('/{service}/visibility', [ServiceController::class, 'updateVisibility'])->name('admin.services.updateVisibility');
         Route::delete('/{service}', [ServiceController::class, 'destroy'])->name('admin.services.destroy');
+        Route::prefix(prefix: 'devis')->group(function () {
+            Route::get('/', [AdminController::class, 'devis'])->name('admin.services.devis');
+            Route::post('/', [DevisController::class, 'store'])->name('admin.devis.store');
+            Route::delete('/{devis}', [DevisController::class, 'destroy'])->name('admin.devis.destroy');
+        });
     });
 
     Route::prefix('profile')->group(function () {

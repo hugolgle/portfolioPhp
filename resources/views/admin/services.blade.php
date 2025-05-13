@@ -1,13 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl">{{ __('Services') }}</h2>
 
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Services') }}
-            </h2>
-            <a href="{{ route('admin.services.create') }}"
-                class="inline-block bg-black hover:bg-black/80 transition text-white px-4 py-2 rounded">Créer
-                un service</a>
+            <div class="flex gap-4">
+                @if (isset($nbDevis) && $nbDevis > 0)
+                    <a href="{{ route('admin.services.devis') }}"
+                        class="inline-block bg-slate-500 hover:bg-slate-700 text-white px-4 py-2 rounded">
+                        Voir les devis ({{ $nbDevis }})
+                    </a>
+                @endif
+
+                <a href="{{ route('admin.services.create') }}"
+                    class="inline-block bg-black hover:bg-gray-800 text-white px-4 py-2 rounded">
+                    Créer un service
+                </a>
+            </div>
         </div>
     </x-slot>
 
@@ -41,6 +49,15 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600">Supprimer</button>
+                            </form>
+                            <form action="{{ route('admin.services.updateVisibility', $service) }}" method="POST"
+                                class="inline">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit"
+                                    class="text-sm px-2 py-1 rounded {{ $service->isVisible ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                                    {{ $service->isVisible ? 'Visible' : 'Caché' }}
+                                </button>
                             </form>
                         </td>
                     </tr>

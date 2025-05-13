@@ -40,7 +40,7 @@ class PortfolioController extends Controller
     ];
 
     $projects = Project::all();
-    $services = Service::all();
+    $services = Service::where('isVisible', true)->get();
     $about = About::first();
 
     $preference = Preference::first();
