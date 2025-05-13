@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        // Copier les données utiles
         DB::table('projects')->insert(
             DB::table('old_projects')->select('id', 'title', 'description', 'ressource', 'tags', 'image', 'created_at', 'updated_at')->get()->map(function ($item) {
                 return (array) $item;

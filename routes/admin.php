@@ -36,7 +36,6 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{service}', [ServiceController::class, 'destroy'])->name('admin.services.destroy');
         Route::prefix(prefix: 'devis')->group(function () {
             Route::get('/', [AdminController::class, 'devis'])->name('admin.services.devis');
-            Route::post('/', [DevisController::class, 'store'])->name('admin.devis.store');
             Route::delete('/{devis}', [DevisController::class, 'destroy'])->name('admin.devis.destroy');
         });
     });

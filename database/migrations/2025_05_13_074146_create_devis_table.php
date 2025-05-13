@@ -10,10 +10,10 @@ class CreateDevisTable extends Migration
     {
         Schema::create('devis', function (Blueprint $table) {
             $table->id();
-            $table->json('services'); // Tableau de services avec un nom et un tableau d'options
-            $table->string('client_name'); // Nom du client
-            $table->string('client_phone'); // Numéro de téléphone du client
-            $table->string('client_email'); // Email du client
+            $table->json('services');
+            $table->string('client_name');
+            $table->string('client_phone');
+            $table->string('client_email');
             $table->timestamps();
         });
     }

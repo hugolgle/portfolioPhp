@@ -14,30 +14,37 @@ class PortfolioController extends Controller
   {
     $skills = [
       [
+        'icon' => '<i data-lucide="code" class="mx-auto mb-4 w-8 h-8 text-primary"></i>',
         'title' => 'Développement Frontend',
         'description' => 'HTML, CSS, JavaScript, React, Vue.js, Next.js'
       ],
       [
+        'icon' => '<i data-lucide="palette" class="mx-auto mb-4 w-8 h-8 text-primary"></i>',
         'title' => 'Design UI/UX',
         'description' => 'Figma, Adobe XD, Responsive Design, Prototypage'
       ],
       [
+        'icon' => '<i data-lucide="server" class="mx-auto mb-4 w-8 h-8 text-primary"></i>',
         'title' => 'Développement Backend',
         'description' => 'Node.js, Express, PHP, MySQL, MongoDB'
       ],
       [
+        'icon' => '<i data-lucide="globe" class="mx-auto mb-4 w-8 h-8 text-primary"></i>',
         'title' => 'Langues',
-        'description' => 'Français (natif), Anglais (courant)'
+        'description' => 'Français (natif), Anglais (scolaire)'
       ],
       [
+        'icon' => '<i data-lucide="brain" class="mx-auto mb-4 w-8 h-8 text-primary"></i>',
         'title' => 'Résolution de problèmes',
         'description' => 'Analyse, Optimisation, Débogage'
       ],
       [
+        'icon' => '<i data-lucide="settings" class="mx-auto mb-4 w-8 h-8 text-primary"></i>',
         'title' => 'Outils & Méthodologies',
         'description' => 'Git, Agile, CI/CD, Docker'
       ],
     ];
+
 
     $projects = Project::all();
     $services = Service::where('isVisible', true)->get();

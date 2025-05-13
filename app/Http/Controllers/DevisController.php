@@ -29,7 +29,6 @@ class DevisController extends Controller
             ->with('success', 'Votre devis a bien été enregistré.');
     }
 
-
     public function destroy(Devis $devis)
     {
         $devis->delete();
