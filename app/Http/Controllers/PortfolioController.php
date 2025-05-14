@@ -45,6 +45,21 @@ class PortfolioController extends Controller
       ],
     ];
 
+    $optionsSubjectFormContact = [
+      [
+        'value' => 'Demande de contact',
+        'label' => 'Demande de contact',
+      ],
+      [
+        'value' => 'Demande de devis',
+        'label' => 'Demande de devis',
+      ],
+      [
+        'value' => 'Autre',
+        'label' => 'Autre',
+      ],
+    ];
+
 
     $projects = Project::all();
     $services = Service::where('isVisible', true)->get();
@@ -54,7 +69,7 @@ class PortfolioController extends Controller
 
     $isAuthenticated = auth()->check();
 
-    return view('welcome', compact('skills', 'projects', 'about', 'isAuthenticated', 'services', 'preference'));
+    return view('welcome', compact('skills', 'projects', 'about', 'isAuthenticated', 'services', 'preference', 'optionsSubjectFormContact'));
   }
 }
 

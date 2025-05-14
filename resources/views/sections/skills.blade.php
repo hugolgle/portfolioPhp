@@ -1,5 +1,5 @@
-<section id="skills" class="py-16 rounded-3xl">
-    <div class="container mx-auto px-4 w-full">
+<section id="skills" class="py-16 min-h-screen snap-start">
+    <div class="container mx-auto px-4 mt-10 w-full">
         <h2 class="text-3xl font-bold text-center mb-16">Mes compétences</h2>
         <div class="flex flex-wrap gap-4 justify-evenly">
             @foreach ($skills as $skill)
