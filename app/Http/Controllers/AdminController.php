@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\About;
 use App\Models\Devis;
+use App\Models\Message;
 use App\Models\Project;
 use App\Models\Service;
 use App\Models\Visit;
@@ -15,6 +16,7 @@ class AdminController extends Controller
   {
     $nbDevis = Devis::count();
     $visitsTotal = Visit::count();
+    $visitsToday = Visit::whereDate('created_at', now())->count();
     $visitsUnique = Visit::distinct('ip')->count('ip');
 
     $visitsPerDay = Visit::select(
@@ -27,17 +29,20 @@ class AdminController extends Controller
       ->pluck('count', 'date')
       ->toArray();
 
+    $nbMessages = Message::where('is_read', false)->count();
     return view('admin.dashboard', compact(
       'nbDevis',
       'visitsTotal',
       'visitsUnique',
-      'visitsPerDay'
+      'visitsPerDay',
+      'nbMessages',
+      'visitsToday'
     ));
   }
 
   public function about()
   {
-    $about = About::all();
+    $about = About::first();
     return view('admin.about', compact('about'));
   }
 
@@ -65,6 +70,12 @@ class AdminController extends Controller
   {
     $devis = Devis::all();
     return view('admin.services.devis', compact('devis'));
+  }
+
+  public function messages()
+  {
+    $messages = Message::all();
+    return view('admin.messages', compact('messages'));
   }
 
   public function preferences()

@@ -5,17 +5,22 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void
+    /**
+     * Run the migrations.
+     */
+    public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->boolean('isVisible')->default(true)->after('description');
+            // ajoute un booléen isVisible, valeurs par défaut false
+            $table->boolean('isVisible')->default(false)->after('price');
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::table('services', function (Blueprint $table) {
             $table->dropColumn('isVisible');
         });
     }
+
 };

@@ -18,7 +18,11 @@ class AboutController extends Controller
       'localisation' => 'nullable|string',
     ]);
 
-    $about = About::firstOrFail();
+    $about = About::first();
+
+    if (!$about) {
+      $about = new About();
+    }
 
     $about->update($request->only([
       'bio',
