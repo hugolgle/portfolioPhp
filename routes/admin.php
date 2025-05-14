@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DevisController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PreferenceController;
 use App\Http\Controllers\AdminController;
@@ -24,6 +25,13 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         Route::get('/{project}/edit', [ProjectController::class, 'edit'])->name('admin.project.edit');
         Route::put('/{project}', [ProjectController::class, 'update'])->name('admin.project.update');
         Route::delete('/{project}', [ProjectController::class, 'destroy'])->name('admin.project.destroy');
+    });
+
+    Route::prefix('messages')->group(function () {
+        Route::get('/', [AdminController::class, 'messages'])->name('admin.messages');
+        Route::get('/{messages}', [MessageController::class, 'show'])->name('admin.messages.show');
+        Route::delete('/{messages}', [MessageController::class, 'destroy'])->name('admin.messages.destroy');
+        Route::put('/{message}/visibility', [MessageController::class, 'updateVisibility'])->name('admin.messages.updateVisibility');
     });
 
     Route::prefix('services')->group(function () {

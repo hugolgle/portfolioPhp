@@ -1,0 +1,53 @@
+- name: Déployer Laravel
+  hosts: laravel
+  become: true
+
+  vars:
+    php_packages:
+      - php
+      - php-cli
+      - php-mbstring
+      - php-xml
+      - php-curl
+      - php-zip
+      - php-pgsql
+      - unzip
+      - curl
+      - git
+      - composer
+
+  tasks:
+    - name: Mettre à jour les paquets
+      apt:
+        update_cache: yes
+
+    - name: Installer PHP et extensions
+      apt:
+        name: '{{ php_packages }}'
+        state: present
+
+    - name: Cloner le projet
+      git:
+        repo: 'https://github.com/hugolge/portfolioPhp.git'
+        dest: /var/www/laravel
+        version: main
+
+    - name: Installer les dépendances Composer
+      command: composer install
+      args:
+        chdir: /var/www/laravel
+
+    - name: Copier le fichier .env
+      copy:
+        src: ../.env
+        dest: /var/www/laravel/.env
+
+    - name: Générer la clé d’application
+      command: php artisan key:generate
+      args:
+        chdir: /var/www/laravel
+
+    - name: Lancer les migrations
+      command: php artisan migrate --force
+      args:
+        chdir: /var/www/laravel

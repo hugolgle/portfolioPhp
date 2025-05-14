@@ -1,5 +1,5 @@
-<section id="services" class="py-16 bg-white rounded-3xl">
-    <div class="container mx-auto px-4 w-full max-w-6xl">
+<section id="services" class="py-16 bg-white min-h-screen snap-start">
+    <div class="container mx-auto px-4 mt-10 w-full max-w-6xl">
         <h2 class="text-3xl font-bold text-center mb-4">Mes services</h2>
         <p class="text-muted-foreground text-center text-sm mb-10">
             Je propose une gamme complète de services pour vous accompagner dans la réalisation<br> de vos projets
@@ -83,7 +83,7 @@
 
                 <div class="mt-4">
                     <label for="client_name"
-                        class="block text-sm font-medium text-gray-700">{{ __('Nom du client') }}</label>
+                        class="block text-sm font-medium text-gray-700">{{ __('Nom') }}</label>
                     <input type="text" id="client_name" name="client_name" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
                 </div>
@@ -97,7 +97,7 @@
 
                 <div class="mt-4">
                     <label for="client_email"
-                        class="block text-sm font-medium text-gray-700">{{ __('Email du client') }}</label>
+                        class="block text-sm font-medium text-gray-700">{{ __('Email') }}</label>
                     <input type="email" id="client_email" name="client_email" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" />
                 </div>
@@ -105,7 +105,6 @@
                 <div class="mt-6">
                     <h4 class="text-lg font-semibold">Services sélectionnés</h4>
                     <ul id="selected-services" class="mt-2">
-                        <!-- Les services sélectionnés seront affichés ici -->
                     </ul>
                 </div>
 

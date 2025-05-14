@@ -43,7 +43,8 @@
 
                 <div class="flex flex-col">
                     <label for="image" class="font-medium mb-1">Image</label>
-                    <input type="file" name="image" id="image" class="border rounded px-3 py-2 w-full" />
+                    <input type="file" name="image" accept="image/jpeg, image/jpg, image/png, image/gif, image/svg"
+                        id="image" class="border rounded px-3 py-2 w-full" />
                 </div>
 
                 <div class="flex justify-end">

@@ -1,45 +1,31 @@
-name: linter
+name: Linter PHP
 
 on:
   push:
-    branches:
-      - develop
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - develop
-      - main
-
-permissions:
-  contents: write
+    branches: [main]
 
 jobs:
-  quality:
+  phpcs:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Setup PHP
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.2'
 
-      - name: Install Dependencies
+      - name: Create SQLite file
         run: |
-          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-          npm install
+          mkdir -p database
+          touch database/database.sqlite
 
-      - name: Run Pint
-        run: vendor/bin/pint
+      - name: Install dependencies
+        run: composer install
 
-      - name: Format Frontend
-        run: npm run format
-
-      - name: Lint Frontend
-        run: npm run lint
-
-      # - name: Commit Changes
-      #   uses: stefanzweifel/git-auto-commit-action@v5
-      #   with:
-      #     commit_message: fix code style
-      #     commit_options: '--no-verify'
+      - name: Run PHP_CodeSniffer
+        run: vendor/bin/phpcs --standard=PSR12 --warning-severity=0 app

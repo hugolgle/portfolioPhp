@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use ApiPlatform\Metadata\ApiResource;
 use Illuminate\Database\Eloquent\Model;
+
+#[ApiResource]
 
 class Devis extends Model
 {
@@ -20,4 +23,3 @@ class Devis extends Model
         'services' => 'array',
     ];
 }
-

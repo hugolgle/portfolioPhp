@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-
     public function create()
     {
         $options = Option::all();

@@ -4,13 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDevisTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('devis', function (Blueprint $table) {
             $table->id();
-            $table->json('services');
+            $table->json('services')->nullable();
             $table->string('client_name');
             $table->string('client_phone');
             $table->string('client_email');
@@ -18,9 +18,8 @@ class CreateDevisTable extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('devis');
     }
-}
-
+};

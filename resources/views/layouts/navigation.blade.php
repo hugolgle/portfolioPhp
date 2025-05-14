@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('admin.preferences')" :active="request()->routeIs('admin.preferences*')">
                         {{ __('Préférences') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.messages')" :active="request()->routeIs('admin.messages*')">
+                        {{ __('Messages') }}
+                    </x-nav-link>
                 </div>
             </div>
 

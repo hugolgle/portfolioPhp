@@ -49,12 +49,12 @@
                 </div>
 
                 <button type="button" id="add-option-btn"
-                    class="w-full py-3 bg-slate-400 text-white font-semibold rounded-md hover:bg-slate-400/80 transition duration-300">
+                    class="w-full py-3 bg-slate-400 text-white font-semibold rounded-md hover:bg-slate-400/80 transition">
                     Ajouter une autre option
                 </button>
 
                 <button type="submit"
-                    class="w-full py-3 bg-black text-white font-semibold rounded-md hover:bg-black/80 transition duration-300">
+                    class="w-full py-3 bg-black text-white font-semibold rounded-md hover:bg-black/80 transition">
                     Soumettre
                 </button>
             </form>
