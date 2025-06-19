@@ -1,0 +1,5 @@
+# deploy/deploy.yaml
+- hosts: web
+  become: yes
+  roles:
+      - laravel
