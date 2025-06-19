@@ -1,0 +1,72 @@
+- name: Installer Python
+  apt:
+      name: python3
+      state: present
+      update_cache: yes
+
+- name: Installer paquets nécessaires
+  apt:
+      name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+      update_cache: yes
+
+- name: Ajouter clé GPG Docker
+  apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+- name: Ajouter dépôt Docker
+  apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+      state: present
+
+- name: Installer Docker et docker compose plugin
+  apt:
+      name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+      update_cache: yes
+
+- name: S'assurer que Docker est démarré
+  service:
+      name: docker
+      state: started
+      enabled: yes
+
+- name: Ajouter l'utilisateur ubuntu au groupe docker
+  user:
+      name: ubuntu
+      groups: docker
+      append: yes
+
+- name: Créer dossier Laravel
+  file:
+      path: /var/www/laravel
+      state: directory
+      owner: ubuntu
+      group: ubuntu
+      mode: '0755'
+
+- name: Cloner le projet Laravel
+  git:
+      repo: 'https://github.com/hugolgle/portfolioPhp.git'
+      dest: /var/www/laravel
+      version: main
+  become_user: ubuntu
+
+- name: Copier le fichier .env
+  copy:
+      src: roles/laravel/files/.env
+      dest: /var/www/laravel/.env
+  become_user: ubuntu
+
+- name: Lancer docker compose
+  command: docker compose up -d
+  args:
+      chdir: /var/www/laravel
+  become: yes
