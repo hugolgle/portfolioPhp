@@ -67,7 +67,7 @@
   become_user: ubuntu
 
 - name: Lancer docker compose
-  command: docker compose up -d
+  command: docker compose up -d --build
   args:
       chdir: /var/www/laravel
   become: yes
