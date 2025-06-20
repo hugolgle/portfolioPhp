@@ -58,6 +58,7 @@
       repo: 'https://github.com/hugolgle/portfolioPhp.git'
       dest: /var/www/laravel
       version: main
+      force: yes
   become_user: ubuntu
 
 - name: Copier le fichier .env
