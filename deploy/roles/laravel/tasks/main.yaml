@@ -53,6 +53,15 @@
       group: ubuntu
       mode: '0755'
 
+- name: Fix permissions sur le dossier Laravel
+  ansible.builtin.file:
+      path: /var/www/laravel/storage
+      recurse: yes
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: '0775'
+
 - name: Cloner le projet Laravel
   git:
       repo: 'https://github.com/hugolgle/portfolioPhp.git'
