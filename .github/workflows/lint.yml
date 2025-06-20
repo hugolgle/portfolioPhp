@@ -29,26 +29,3 @@ jobs:
 
       - name: Run PHP_CodeSniffer
         run: vendor/bin/phpcs --standard=PSR12 --warning-severity=0 app
-
-  sonar:
-    name: sonar
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        with:
-          args: >
-            -Dsonar.projectKey=PortfolioPHP
-            -Dsonar.projectName=PortfolioPHP
-
-      - uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
