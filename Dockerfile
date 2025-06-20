@@ -19,6 +19,6 @@ RUN composer install
 
 RUN npm install
 
-RUN sudo chown -R www-data:www-data storage/
+RUN chown -R www-data:www-data storage/
 
 WORKDIR /app
