@@ -29,7 +29,7 @@ jobs:
           ssh-keyscan -H 83.228.199.184 >> ~/.ssh/known_hosts
 
       - name: Lancer playbook Ansible
-        run: ansible-playbook ./deploy/deploy.yaml -i inventory.ini
+        run: ansible-playbook  -i host.ini ./deploy/deploy.yaml
 
       - name: Vérifier la dernière version sur VPS
         run: |
