@@ -97,6 +97,21 @@
             <x-responsive-nav-link :href="route('admin')" :active="request()->routeIs('admin')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.about')" :active="request()->routeIs('admin.about*')">
+                {{ __('À propos') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.project')" :active="request()->routeIs('admin.project*')">
+                {{ __('Projets') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.services')" :active="request()->routeIs('admin.services*')">
+                {{ __('Services') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.preferences')" :active="request()->routeIs('admin.preferences*')">
+                {{ __('Préférences') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.messages')" :active="request()->routeIs('admin.messages*')">
+                {{ __('Messages') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -109,6 +124,10 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('admin.profile.edit')">
                     {{ __('Profil') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="url('/')" target="_blank">
+                    {{ __('Le site') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

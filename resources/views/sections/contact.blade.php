@@ -1,8 +1,8 @@
 <section id="contact" class="min-h-screen snap-start py-16 bg-gray-50">
     <div class="container mx-auto px-4 mt-10 w-full">
         <h2 class="text-3xl font-bold text-center mb-16">Me contacter</h2>
-        <div class="flex gap-x-10">
-            <div class="w-full">
+        <div class="flex flex-col md:flex-row gap-y-10 md:gap-x-10">
+            <div class="w-full md:w-1/2">
                 <h3 class="text-2xl font-semibold mb-6">Parlons de votre projet</h3>
                 <p class="text-muted-foreground text-sm mb-8">
                     Vous avez un projet en tête ? N'hésitez pas à me contacter pour en discuter. Je suis toujours à la
@@ -11,16 +11,16 @@
                 <div class="space-y-4">
                     <div class="flex items-center gap-4">
                         <div class="bg-white p-3 rounded-full">
-                            <i data-lucide='mail'></i>
+                            <i data-lucide='mail' class="w-6 h-6"></i>
                         </div>
                         <div>
                             <h4 class="font-medium">Email</h4>
-                            <p class="text-muted-foreground">{{ $about->email ?? '' }}</p>
+                            <p class="text-muted-foreground break-words">{{ $about->email ?? '' }}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="bg-white p-3 rounded-full">
-                            <i data-lucide='phone'></i>
+                            <i data-lucide='phone' class="w-6 h-6"></i>
                         </div>
                         <div>
                             <h4 class="font-medium">Téléphone</h4>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="bg-white p-3 rounded-full">
-                            <i data-lucide='map-pin'></i>
+                            <i data-lucide='map-pin' class="w-6 h-6"></i>
                         </div>
                         <div>
                             <h4 class="font-medium">Localisation</h4>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full">
+            <div class="w-full md:w-1/2">
                 <form method="POST" action="{{ route('admin.messages.store') }}" class="space-y-6">
                     @csrf
                     <div>
@@ -75,14 +75,11 @@
 
                     <button type="submit"
                         class="flex justify-center items-center gap-2 w-full text-sm px-4 py-2 bg-black text-white rounded hover:bg-opacity-85 transition">
-                        <i data-lucide='send' class="size-4"></i>
+                        <i data-lucide='send' class="w-6 h-6"></i>
                         Envoyer
                     </button>
                 </form>
-
             </div>
         </div>
-
-
     </div>
 </section>
