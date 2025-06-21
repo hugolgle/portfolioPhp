@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $preference->site_title ?? 'Titre par défaut' }}</title>
     <meta name="description" content="{{ $preference->site_description ?? 'Description par défaut' }}">
     <meta name="keywords" content="{{ $preference->seo_keywords ?? '' }}">
@@ -25,103 +26,150 @@
                 </svg>
             </button>
 
-            <!-- Menu mobile -->
-            <div id="mobile-menu" class="hidden fixed inset-0 top-16 bg-white z-40 p-4 md:hidden">
-                <nav class="flex flex-col space-y-4 text-lg">
-                    <button onclick="scrollToSection('accueil')"
-                        class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Accueil</button>
-                    <button onclick="scrollToSection('about')"
-                        class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">À
-                        propos</button>
-                    <button onclick="scrollToSection('skills')"
-                        class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Compétences</button>
-                    <button onclick="scrollToSection('projects')"
-                        class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Projets</button>
-                    <button onclick="scrollToSection('services')"
-                        class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes
-                        services</button>
-                    <button onclick="scrollToSection('contact')"
-                        class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Contact</button>
-                    @if ($isAuthenticated)
-                        <a href="{{ route('admin') }}">Accéder à l'admin</a>
-                    @else
-                        <a href="{{ route('login') }}" class="">
-                            <i data-lucide="user" class="mx-auto mb-4 w-8 h-8 text-primary"></i></a>
-                    @endif
-
-                </nav>
-            </div>
-
             <!-- Menu desktop -->
             <nav class="hidden md:flex items-center space-x-8">
                 <button onclick="scrollToSection('accueil')"
                     class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Accueil</button>
                 <button onclick="scrollToSection('about')"
-                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">À
-                    propos</button>
+                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">À propos</button>
                 <button onclick="scrollToSection('skills')"
                     class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Compétences</button>
                 <button onclick="scrollToSection('projects')"
                     class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Projets</button>
                 <button onclick="scrollToSection('services')"
-                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes
-                    services</button>
+                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes services</button>
                 <button onclick="scrollToSection('contact')"
                     class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Contact</button>
                 @if ($isAuthenticated)
-                    <a href="{{ route('admin') }}" class="p-2 rounded cursor-pointer hover:bg-gray-100 transition"><i
-                            data-lucide="shield-user" class="size-4"></i></a>
+                    <a href="{{ route('admin') }}" class="p-2 rounded hover:bg-gray-100 transition">
+                        <i data-lucide="shield-user" class="w-5 h-5"></i>
+                    </a>
                 @else
-                    <a href="{{ route('login') }}" class="p-2 rounded cursor-pointer hover:bg-gray-100 transition">
-                        <i data-lucide="user" class="size-4"></i></a>
+                    <a href="{{ route('login') }}" class="p-2 rounded hover:bg-gray-100 transition">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </a>
                 @endif
-
             </nav>
+        </div>
+
+        <!-- Menu mobile -->
+        <div id="mobile-menu"
+            class="fixed inset-x-0 top-16 bg-white w-full z-50 h-screen p-4 flex flex-col space-y-4 text-lg md:hidden 
+                    transform -translate-y-2 opacity-0 transition-transform transition-opacity duration-200 hidden">
+            <button onclick="scrollToSection('accueil')"
+                class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Accueil</button>
+            <button onclick="scrollToSection('about')" class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">À
+                propos</button>
+            <button onclick="scrollToSection('skills')"
+                class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Compétences</button>
+            <button onclick="scrollToSection('projects')"
+                class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Projets</button>
+            <button onclick="scrollToSection('services')"
+                class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes services</button>
+            <button onclick="scrollToSection('contact')"
+                class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Contact</button>
+            @if ($isAuthenticated)
+                <button>
+                    <a href="{{ route('admin') }}"
+                        class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Accéder à
+                        l'admin</a>
+                </button>
+            @else
+                <button>
+                    <a href="{{ route('login') }}" class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">
+                        Se connecter
+                    </a>
+                </button>
+            @endif
         </div>
     </header>
 
-    <script>
-        const toggle = document.getElementById("menu-toggle")
-        const menu = document.getElementById("mobile-menu")
-        const icon = document.getElementById("menu-icon")
-
-        toggle?.addEventListener("click", () => {
-            menu.classList.toggle("hidden")
-            icon.innerHTML = menu.classList.contains("hidden") ?
-                `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>` :
-                `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>`
-        })
-
-        const scrollToSection = (id) => {
-            const el = document.getElementById(id)
-            if (el) el.scrollIntoView({
-                behavior: "smooth"
-            })
-            menu?.classList.add("hidden")
-        }
-    </script>
-
-    <main class="pb-6 py-16 snap-y snap-mandatory overflow-y-scroll h-screen">
+    <main class="pt-20">
         @yield('content')
     </main>
 
     <script>
-        const container = document.querySelector('main')
-        container.addEventListener('scroll', () => {
-            const header = document.getElementById('header')
-            if (container.scrollTop > 10) {
-                header.classList.add('bg-white/80', 'backdrop-blur', 'shadow-sm')
+        const toggle = document.getElementById("menu-toggle");
+        const menu = document.getElementById("mobile-menu");
+        const icon = document.getElementById("menu-icon");
+        const header = document.getElementById("header");
+
+        toggle?.addEventListener("click", () => {
+            if (menu.classList.contains('hidden')) {
+                // ouverture du menu : on retire hidden, puis on force l'animation
+                menu.classList.remove('hidden');
+                // dans le prochain frame, retirer les classes de départ
+                requestAnimationFrame(() => {
+                    menu.classList.remove('-translate-y-2', 'opacity-0');
+                    menu.classList.add('translate-y-0', 'opacity-100');
+                });
+                // forcer background du header quand menu ouvert
+                header.classList.add('bg-white/80', 'backdrop-blur', 'shadow-sm');
+                // changer icône
+                icon.innerHTML =
+                    `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>`;
             } else {
-                header.classList.remove('bg-white/80', 'backdrop-blur', 'shadow-sm')
+                // fermeture : on lance l'animation de sortie
+                menu.classList.remove('translate-y-0', 'opacity-100');
+                menu.classList.add('-translate-y-2', 'opacity-0');
+                // après transition, on remet hidden et ajuste header
+                const handler = () => {
+                    menu.classList.add('hidden');
+                    menu.removeEventListener('transitionend', handler);
+                    if (window.scrollY <= 10) {
+                        header.classList.remove('bg-white/80', 'backdrop-blur', 'shadow-sm');
+                    }
+                };
+                menu.addEventListener('transitionend', handler);
+                // icône burger
+                icon.innerHTML =
+                    `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>`;
             }
-        })
+        });
+
+        const scrollToSection = (id) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({
+                    behavior: "smooth"
+                });
+                // ferme le menu si ouvert
+                if (!menu.classList.contains('hidden')) {
+                    // même logique que clic fermeture
+                    menu.classList.remove('translate-y-0', 'opacity-100');
+                    menu.classList.add('-translate-y-2', 'opacity-0');
+                    const handler = () => {
+                        menu.classList.add('hidden');
+                        menu.removeEventListener('transitionend', handler);
+                        if (window.scrollY <= 10) {
+                            header.classList.remove('bg-white/80', 'backdrop-blur', 'shadow-sm');
+                        }
+                    };
+                    menu.addEventListener('transitionend', handler);
+                    // remettre icône burger
+                    icon.innerHTML =
+                        `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>`;
+                }
+            }
+        };
+
+        window.addEventListener('scroll', () => {
+            // si menu mobile ouvert, on ne touche pas au header bg
+            if (!menu.classList.contains('hidden')) {
+                return;
+            }
+            if (window.scrollY > 10) {
+                header.classList.add('bg-white/80', 'backdrop-blur', 'shadow-sm');
+            } else {
+                header.classList.remove('bg-white/80', 'backdrop-blur', 'shadow-sm');
+            }
+        });
     </script>
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons()
+    </script>
 </body>
 
 </html>
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
-    lucide.createIcons();
-</script>
