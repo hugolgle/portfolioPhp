@@ -84,7 +84,7 @@
         </div>
     </header>
 
-    <main class="pt-20">
+    <main class="pb-6 py-16 snap-y snap-mandatory overflow-y-scroll h-screen">
         @yield('content')
     </main>
 
@@ -116,9 +116,6 @@
                 const handler = () => {
                     menu.classList.add('hidden');
                     menu.removeEventListener('transitionend', handler);
-                    if (window.scrollY <= 10) {
-                        header.classList.remove('bg-white/80', 'backdrop-blur', 'shadow-sm');
-                    }
                 };
                 menu.addEventListener('transitionend', handler);
                 // icône burger
@@ -141,9 +138,6 @@
                     const handler = () => {
                         menu.classList.add('hidden');
                         menu.removeEventListener('transitionend', handler);
-                        if (window.scrollY <= 10) {
-                            header.classList.remove('bg-white/80', 'backdrop-blur', 'shadow-sm');
-                        }
                     };
                     menu.addEventListener('transitionend', handler);
                     // remettre icône burger
@@ -164,6 +158,18 @@
                 header.classList.remove('bg-white/80', 'backdrop-blur', 'shadow-sm');
             }
         });
+    </script>
+
+    <script>
+        const container = document.querySelector('main')
+        container.addEventListener('scroll', () => {
+            const header = document.getElementById('header')
+            if (container.scrollTop > 10) {
+                header.classList.add('bg-white/50', 'backdrop-blur', 'shadow-sm')
+            } else {
+                header.classList.remove('bg-white/50', 'backdrop-blur', 'shadow-sm')
+            }
+        })
     </script>
 
     <script src="https://unpkg.com/lucide@latest"></script>
