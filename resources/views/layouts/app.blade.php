@@ -16,7 +16,7 @@
 <body class="min-h-screen bg-background">
     <header id="header" class="fixed top-0 w-full z-50 transition duration-300 bg-transparent">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-            <a href="/" class="text-xl font-bold">Hugo.</a>
+            <a href="/" class="text-xl font-bold">Hugo......</a>
 
             <!-- Bouton mobile -->
             <button id="menu-toggle" class="md:hidden text-gray-800" aria-label="Menu">
