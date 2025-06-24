@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: laravel-php
-    volume:
+    volumes:
         - laravel_data:/app
     restart: unless-stopped
     expose:
