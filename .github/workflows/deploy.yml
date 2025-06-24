@@ -1,4 +1,3 @@
-# .github/workflows/deploy.yml
 name: Deploy PHP Application
 
 on:
@@ -15,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Run PHP_CodeSniffer
+        run: vendor/bin/phpcs --standard=PSR12 --warning-severity=0 app
+
       - name: Installer Python et Ansible
         run: |
           sudo apt update
@@ -30,23 +32,3 @@ jobs:
 
       - name: Lancer playbook Ansible
         run: ansible-playbook -i ./deploy/host.ini ./deploy/deploy.yaml
-
-      - name: Vérifier la dernière version sur VPS
-        run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@83.228.199.184 "cd /var/www/laravel && git log -1 --oneline"
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-
-      - name: Create SQLite file
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
-
-      - name: Install dependencies
-        run: composer install
-
-      - name: Run PHP_CodeSniffer
-        run: vendor/bin/phpcs --standard=PSR12 --warning-severity=0 app
