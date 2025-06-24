@@ -10,7 +10,7 @@ RUN apk add --no-cache \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
+WORKDIR /srv/laravel
 
 COPY . .
 
@@ -31,5 +31,5 @@ RUN php artisan key:generate
 RUN php artisan migrate
 RUN php artisan storage:link
 
-
+CMD ["php-fpm"]
 

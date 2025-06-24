@@ -78,6 +78,12 @@
       force: yes
   become_user: ubuntu
 
+- name: Supprime les volumes
+  command: docker compose down -v
+  args:
+      chdir: /home/ubuntu/portfolioPhp
+  become: yes
+
 - name: Lancer docker compose
   command: docker compose up -d --build --pull always
   args:

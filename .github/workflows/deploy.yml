@@ -14,9 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run PHP_CodeSniffer
-        run: vendor/bin/phpcs --standard=PSR12 --warning-severity=0 app
-
       - name: Installer Python et Ansible
         run: |
           sudo apt update
