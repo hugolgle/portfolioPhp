@@ -47,7 +47,7 @@
 
 - name: Créer dossier Laravel
   file:
-      path: /var/www/laravel
+      path: /home/ubuntu/portfolioPhp
       state: directory
       owner: ubuntu
       group: ubuntu
@@ -55,29 +55,31 @@
 
 - name: Fix permissions sur le dossier Laravel
   ansible.builtin.file:
-      path: /var/www/laravel/storage
+      path: /home/ubuntu/portfolioPhp/storage
       recurse: yes
       state: directory
       owner: www-data
       group: www-data
       mode: '0775'
 
-- name: Cloner le projet Laravel
+- name: Donner les droits à ubuntu sur /home/ubuntu/portfolioPhp
+  file:
+      path: /home/ubuntu/portfolioPhp
+      owner: ubuntu
+      group: ubuntu
+      recurse: yes
+
+- name: Mettre à jour le projet Laravel
   git:
       repo: 'https://github.com/hugolgle/portfolioPhp.git'
-      dest: /var/www/laravel
+      dest: /home/ubuntu/portfolioPhp
       version: main
+      update: yes
       force: yes
   become_user: ubuntu
 
-- name: Copier le fichier .env
-  copy:
-      src: roles/laravel/files/.env
-      dest: /var/www/laravel/.env
-  become_user: ubuntu
-
 - name: Lancer docker compose
-  command: docker compose up -d --build
+  command: docker compose up -d --build --pull always
   args:
-      chdir: /var/www/laravel
+      chdir: /home/ubuntu/portfolioPhp
   become: yes
