@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class About extends Model
 {
     protected $fillable = [
-    'cv',
-    'bio',
-    'photo',
-    'numero',
-    'email',
-    'localisation'
+        'cv',
+        'herotext',
+        'bio',
+        'photo',
+        'numero',
+        'email',
+        'localisation'
     ];
 }

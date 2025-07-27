@@ -1,8 +1,8 @@
 <section id="contact" class="min-h-screen snap-start py-16 bg-gray-50">
     <div class="container mx-auto px-4 mt-10 w-full">
         <h2 class="text-3xl font-bold text-center mb-16">Me contacter</h2>
-        <div class="flex flex-col md:flex-row gap-y-10 md:gap-x-10">
-            <div class="w-full md:w-1/2">
+        <div class="flex flex-col sm:flex-row gap-10">
+            <div class="w-full sm:w-1/2">
                 <h3 class="text-2xl font-semibold mb-6">Parlons de votre projet</h3>
                 <p class="text-muted-foreground text-sm mb-8">
                     Vous avez un projet en tête ? N'hésitez pas à me contacter pour en discuter. Je suis toujours à la

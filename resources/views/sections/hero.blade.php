@@ -4,11 +4,12 @@
             Bonjour, je suis <span class="text-primary">Hugo</span>
         </h1>
         <h2 class="text-2xl md:text-3xl text-muted-foreground mb-8">Développeur Web</h2>
-        <p class="text-lg max-w-2xl mb-10 text-muted-foreground">
-            Je crée des expériences web élégantes et fonctionnelles, en combinant design et développement pour donner
-            vie
-            à vos projets.
-        </p>
+        @if ($about && $about->herotext)
+            <p class="text-lg max-w-2xl mb-10 text-muted-foreground">
+                {{ $about->herotext }}
+            </p>
+        @endif
+
         <div class="flex flex-col sm:flex-row gap-4">
             <button class="text-sm px-4 py-2 bg-black text-white rounded hover:bg-opacity-85 transition"
                 onclick="document.getElementById('projects').scrollIntoView({ behavior: 'smooth' })">

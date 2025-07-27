@@ -31,25 +31,25 @@
                 <button onclick="scrollToSection('accueil')"
                     class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Accueil</button>
                 <button onclick="scrollToSection('about')"
-                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">À propos</button>
-                <button onclick="scrollToSection('skills')"
-                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Compétences</button>
+                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">À propos de moi</button>
+
                 <button onclick="scrollToSection('projects')"
-                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Projets</button>
-                <button onclick="scrollToSection('services')"
-                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes services</button>
+                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes projets</button>
                 <button onclick="scrollToSection('contact')"
                     class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Contact</button>
-                @if ($isAuthenticated)
-                    <a href="{{ route('admin') }}" class="p-2 rounded hover:bg-gray-100 transition">
-                        <i data-lucide="shield-user" class="w-5 h-5"></i>
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="p-2 rounded hover:bg-gray-100 transition">
-                        <i data-lucide="user" class="w-5 h-5"></i>
-                    </a>
-                @endif
+                {{-- <button onclick="scrollToSection('skills')"
+                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Compétences</button> --}}
+                {{-- <button onclick="scrollToSection('services')"
+                    class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes services</button> --}}
+
             </nav>
+            <button onclick="scrollToSection('contact')"
+                class="bg-black text-white text-sm px-2 py-1 rounded">Contact</button>
+            @if ($isAuthenticated)
+                <a href="{{ route('admin') }}" class="absolute right-0 mr-2 p-2 rounded hover:bg-gray-100 transition">
+                    <i data-lucide="shield-user" class="w-5 h-5"></i>
+                </a>
+            @endif
         </div>
 
         <!-- Menu mobile -->
@@ -64,8 +64,8 @@
                 class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Compétences</button>
             <button onclick="scrollToSection('projects')"
                 class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Projets</button>
-            <button onclick="scrollToSection('services')"
-                class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes services</button>
+            {{-- <button onclick="scrollToSection('services')"
+                class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Mes services</button> --}}
             <button onclick="scrollToSection('contact')"
                 class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Contact</button>
             @if ($isAuthenticated)
@@ -73,12 +73,6 @@
                     <a href="{{ route('admin') }}"
                         class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">Accéder à
                         l'admin</a>
-                </button>
-            @else
-                <button>
-                    <a href="{{ route('login') }}" class="hover:bg-gray-100 transition text-sm px-2 py-1 rounded">
-                        Se connecter
-                    </a>
                 </button>
             @endif
         </div>
