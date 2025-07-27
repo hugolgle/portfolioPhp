@@ -24,6 +24,12 @@
                             onclick="window.open(currentCV, '_blank')"></canvas>
                     </div>
 
+                    {{-- Phrase hero --}}
+                    <div class="flex flex-col">
+                        <label class="font-medium mb-2">Phrase hero</label>
+                        <textarea name="herotext" class="border rounded px-3 py-2 h-32">{{ old('herotext', $about->herotext ?? '') }}</textarea>
+                    </div>
+
                     {{-- Bio --}}
                     <div class="flex flex-col">
                         <label class="font-medium mb-2">Bio</label>

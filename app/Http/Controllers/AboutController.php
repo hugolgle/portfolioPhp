@@ -10,12 +10,13 @@ class AboutController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-        'cv' => 'nullable|file|mimes:pdf|max:10240',
-        'bio' => 'nullable|string',
-        'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:10240',
-        'numero' => 'nullable|string',
-        'email' => 'nullable|email',
-        'localisation' => 'nullable|string',
+            'cv' => 'nullable|file|mimes:pdf|max:10240',
+            'herotext' => 'nullable|string|max:255',
+            'bio' => 'nullable|string',
+            'photo' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:10240',
+            'numero' => 'nullable|string',
+            'email' => 'nullable|email',
+            'localisation' => 'nullable|string',
         ]);
 
         $about = About::first();
@@ -25,10 +26,11 @@ class AboutController extends Controller
         }
 
         $about->update($request->only([
-        'bio',
-        'numero',
-        'email',
-        'localisation',
+            'herotext',
+            'bio',
+            'numero',
+            'email',
+            'localisation',
         ]));
 
         if ($request->hasFile('cv')) {
